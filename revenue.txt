@@ -1,0 +1,8 @@
+New max: 2310007.94 | Ford Club Wagon (1997)
+New max: 8574773.91 | Acura TL (2005)
+New max: 12275265.75 | Volkswagen Jetta (2009)
+New max: 12308359.799999999 | GMC 3500 (1999)
+New max: 15772439.640000002 | Buick Century (1991)
+New max: 22461448.0 | Ford Econoline E350 (1996)
+New max: 22631771.89 | Buick LeSabre (1987)
+New max: 22749529.02 | Mercedes-Benz E-Class (2009)

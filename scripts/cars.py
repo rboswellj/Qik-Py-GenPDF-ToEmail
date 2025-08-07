@@ -20,6 +20,7 @@
 import json
 import locale
 import sys
+import os
 import emails as emails
 import reports as reports
 
@@ -42,7 +43,7 @@ def process_data(data):
   """
   summary = []
 
-  max_revenue = {"revenue": 0}
+  max_revenue_item = {"revenue": 0}
   max_sales_item = {"total_sales": 0}
   most_popular_year = {}
   
@@ -52,9 +53,11 @@ def process_data(data):
     item_price = locale.atof(item["price"].strip("$"))
     item_revenue = item["total_sales"] * item_price
     
-    if item_revenue > max_revenue["revenue"]:
+    if item_revenue > max_revenue_item["revenue"]:
       item["revenue"] = item_revenue
       max_revenue_item = item
+      with open("revenue.txt", "a") as f:
+        f.write("New max: {} | {}\n".format(max_revenue_item["revenue"], format_car(max_revenue_item["car"])))
     
     # handle max sales
     if item["total_sales"] > max_sales_item["total_sales"]:
@@ -96,20 +99,20 @@ def main(argv):
   """Process the JSON data and generate a full report out of it."""
   data = load_data("car_sales.json")
   summary = process_data(data)
-  print(summary)
+  #print(summary)
 
   # turn data into a PDF report
   table_data = cars_dict_to_table(data)
   reports.generate("/tmp/cars.pdf", "Sales summary for last month", "<br/>".join(summary), table_data) #Correct path for final
 
   # send the PDF report as an email attachment
-  sender = "automation@example.com"
-  receiver = "{}@example.com".format(os.environ.get('USER'))
-  subject = "Sales summary for last month"
-  body = "{}\n{}\n{}\n".format(summary[0], summary[1], summary[2])
+#   sender = "automation@example.com"
+#   receiver = "{}@example.com".format(os.environ.get('USER'))
+#   subject = "Sales summary for last month"
+#   body = "{}\n{}\n{}\n".format(summary[0], summary[1], summary[2])
 
-  message = emails.generate(sender, receiver, subject, body, "/tmp/cars.pdf")
-  emails.send(message)
+#   message = emails.generate(sender, receiver, subject, body, "/tmp/cars.pdf")
+#   emails.send(message)
 
 
 if __name__ == "__main__":
