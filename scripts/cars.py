@@ -97,10 +97,19 @@ def main(argv):
   data = load_data("car_sales.json")
   summary = process_data(data)
   print(summary)
+
   # turn data into a PDF report
   table_data = cars_dict_to_table(data)
-  reports.generate("./cars.pdf", "Sales summary for last month", "<br/>".join(summary), table_data) #Correct path for final
-  # TODO: send the PDF report as an email attachment
+  reports.generate("/tmp/cars.pdf", "Sales summary for last month", "<br/>".join(summary), table_data) #Correct path for final
+
+  # send the PDF report as an email attachment
+  sender = "automation@example.com"
+  receiver = "{}@example.com".format(os.environ.get('USER'))
+  subject = "Sales summary for last month"
+  body = "{}\n{}\n{}\n".format(summary[0], summary[1], summary[2])
+
+  message = emails.generate(sender, receiver, subject, body, "/tmp/cars.pdf")
+  emails.send(message)
 
 
 if __name__ == "__main__":
