@@ -20,6 +20,8 @@
 import json
 import locale
 import sys
+import emails as emails
+import reports as reports
 
 def load_data(filename):
   """Loads the contents of filename as a JSON file."""
@@ -58,7 +60,7 @@ def process_data(data):
     if item["total_sales"] > max_sales_item["total_sales"]:
         max_sales_item = item
     
-    # TODO: also handle most popular car_year
+    # handle most popular car_year
     if item["car"]["car_year"] not in most_popular_year:
       most_popular_year[item["car"]["car_year"]] = item["total_sales"]
     else:
@@ -96,7 +98,8 @@ def main(argv):
   summary = process_data(data)
   print(summary)
   # TODO: turn this into a PDF report
-
+  table_data = cars_dict_to_table(data)
+  reports.generate("./cars.pdf", "Sales summary for last month", "<br/>".join(summary), table_data)
   # TODO: send the PDF report as an email attachment
 
 
