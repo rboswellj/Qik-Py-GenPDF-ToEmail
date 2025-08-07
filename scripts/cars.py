@@ -97,9 +97,9 @@ def main(argv):
   data = load_data("car_sales.json")
   summary = process_data(data)
   print(summary)
-  # TODO: turn this into a PDF report
+  # turn data into a PDF report
   table_data = cars_dict_to_table(data)
-  reports.generate("./cars.pdf", "Sales summary for last month", "<br/>".join(summary), table_data)
+  reports.generate("./cars.pdf", "Sales summary for last month", "<br/>".join(summary), table_data) #Correct path for final
   # TODO: send the PDF report as an email attachment
 
 
